@@ -283,7 +283,8 @@
     }
 
     function clearTables() {
-      
+      const ok = confirm("Are you sure you want to clear all tables?");
+      if (!ok) return;
       tables.forEach(table => {
         table.querySelector('tbody').innerHTML = '';
         table.querySelector('thead th').innerText = ''
