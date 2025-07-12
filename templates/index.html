@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Bank PDF Ending Balances</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f4f4;
+      padding: 2rem;
+      max-width: 900px;
+      margin: auto;
+    }
+
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+
+    .drop-zone {
+      border: 2px dashed #bbb;
+      border-radius: 8px;
+      padding: 40px;
+      text-align: center;
+      color: #777;
+      background-color: #fff;
+      cursor: pointer;
+      transition: background 0.3s;
+      margin-bottom: 20px;
+    }
+
+    .drop-zone.dragover {
+      background-color: #eef;
+      border-color: #3399ff;
+      color: #3399ff;
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+
+    .loader {
+      text-align: center;
+      margin-top: 10px;
+      font-style: italic;
+      color: #888;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      background: #fff;
+      margin-top: 1rem;
+    }
+
+    table th, table td {
+      padding: 10px;
+      border: 1px solid #ddd;
+      text-align: left;
+      width: fit-content;
+    }
+
+    table th {
+      background-color: #f0f0f0;
+    }
+
+    .positive {
+      color: green;
+    }
+
+    .negative {
+      color: red;
+    }
+
+    #errorOutput {
+      color: red;
+      text-align: center;
+      margin-top: 1rem;
+    }
+
+    .output {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      gap: 10px;
+      width: 100%;
+    }
+
+    .table {
+      width: 33%;
+      position: relative;
+    }
+
+    .table p {
+      position: absolute;
+      background-color: whitesmoke;
+      padding: 0 5px;
+      right: 0;
+      top: -35%;
+      border: 1px solid gray;
+      border-radius: 4px;
+    }
+
+    .button-container {
+      text-align: center;
+      margin-top: 1rem;
+    }
+
+    .clear-button {
+      padding: 8px 16px;
+      font-size: 14px;
+      background-color: #ff4d4d;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .clear-button:hover {
+      background-color: #e60000;
+    }
+  </style>
+</head>
+<body>
+  <h2>Bank Statement Daily Balances</h2>
+
+  <div class="drop-zone" id="dropZone" onclick="fileInput.click()">
+    <p>Click or drag a PDF file here to extract daily ending balances</p>
+    <input type="file" id="fileInput" accept=".pdf">
+  </div>
+
+     <div class="button-container" style="margin-top: -10px; margin-bottom: 10px;">
+    <button class="clear-button" onclick="clearTables()">🧹 Clear Tables</button>
+  </div>
+
+  <div class="loader" id="loader"></div>
+  <div id="errorOutput"></div>
+
+  <div class="output">
+    <div class="table">
+      <table id="resultTable0">
+          <thead>
+          <tr>
+            <th colspan="2"></th>
+          </tr>
+        </thead>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Ending Balance</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="table">
+      <table id="resultTable1">
+          <thead>
+          <tr>
+            <th colspan="2"></th>
+          </tr>
+        </thead>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Ending Balance</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="table">
+      <table id="resultTable2">
+        <thead>
+          <tr>
+            <th colspan="2"></th>
+          </tr>
+        </thead>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Ending Balance</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+
+
+
+  <script>
+    const dropZone = document.getElementById('dropZone');
+    const fileInput = document.getElementById('fileInput');
+    const loader = document.getElementById('loader');
+    const errorOutput = document.getElementById('errorOutput');
+    const tables = [
+      document.getElementById('resultTable0'),
+      document.getElementById('resultTable1'),
+      document.getElementById('resultTable2')
+    ];
+    let filledTables = 0;
+
+    dropZone.addEventListener('dragover', e => {
+      e.preventDefault();
+      dropZone.classList.add('dragover');
+    });
+
+    dropZone.addEventListener('dragleave', () => {
+      dropZone.classList.remove('dragover');
+    });
+
+    dropZone.addEventListener('drop', e => {
+      e.preventDefault();
+      dropZone.classList.remove('dragover');
+      const file = e.dataTransfer.files[0];
+      handleFile(file);
+    });
+
+    fileInput.addEventListener('change', () => {
+      const file = fileInput.files[0];
+      handleFile(file);
+    });
+
+    function handleFile(file) {
+      errorOutput.textContent = '';
+      if (!file || file.type !== 'application/pdf') {
+        errorOutput.textContent = '❌ Please select a valid PDF file.';
+        return;
+      }
+
+      if (filledTables >= 3) {
+        errorOutput.textContent = '❌ All tables are full. Please clear the tables to add more.';
+        return;
+      }
+
+      processFile(file, filledTables);
+    }
+
+    async function processFile(file, tableIndex) {
+      loader.textContent = 'Processing...';
+      const tbody = tables[tableIndex].querySelector('tbody');
+      const banktitle = tables[tableIndex].querySelector('thead th');
+
+      tbody.innerHTML = '';
+
+      const formData = new FormData();
+      formData.append('pdf_file', file);
+
+      try {
+        const res = await fetch('/extract', {
+          method: 'POST',
+          body: formData
+        });
+        const result = await res.json();
+        loader.textContent = '';
+
+        if (result.error) {
+          errorOutput.textContent = result.error;
+          return;
+        }
+
+        const balances = result.balances;
+        if (!balances.length) {
+          errorOutput.textContent = 'No data found.';
+          return;
+        }
+        banktitle.innerText = result.bank
+        balances.forEach(row => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>${row.date}</td>
+            <td>$${row.ending_balance.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+
+        filledTables++;
+      } catch (err) {
+        loader.textContent = '';
+        errorOutput.textContent = '❌ Error: ' + err.message;
+      }
+    }
+
+    function clearTables() {
+      
+      tables.forEach(table => {
+        table.querySelector('tbody').innerHTML = '';
+        table.querySelector('thead th').innerText = ''
+      });
+      filledTables = 0;
+      errorOutput.textContent = '';
+    }
+  </script>
+</body>
+</html>
