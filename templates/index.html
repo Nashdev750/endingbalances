@@ -251,7 +251,7 @@
       formData.append('pdf_file', file);
 
       try {
-        const res = await fetch('/extract', {
+        const res = await fetch('/ending-balances/extract', {
           method: 'POST',
           body: formData
         });
