@@ -152,11 +152,11 @@ def compute_balances(starting_balance, txn_data, date_fmt="%b %d"):
 def process_practive(text):
     # Extract starting balance
     # print(text)
-    match = re.search(r'Yourpreviousbalanceasof[\d/]+ \$([\d,]+\.\d{2})', text)
+    match = re.search(r'Yourpreviousbalanceasof[\d/]+ \$-?([\d,]+\.\d{2})', text)
     if not match:
         return "❌ Couldn't find Starting Balance for Practive Health."
 
-    starting_balance = float(match.group(1).replace(',', ''))
+    starting_balance = float(match.group(0).split(' ')[-1].replace(',', '').replace('$',''))
     # Split the text by the transaction divider
     sections = text.split('Deposits,creditsandinterest')
     if len(sections) < 2:
@@ -169,19 +169,17 @@ def process_practive(text):
 
     # Pattern: MM/DD ... number (non-signed)
     # pattern = r'(\d{2}/\d{2})[^\n]*?([+-]?\$?\-?\d{1,3}(?:,\d{3})*(?:\.\d{2}))'
-    import re
 
-    transaction_line_regex = re.compile(r'(\d{2}/\d{2})\s+(.+?)\s+([\d,]+\.\d{2})')
+    # transaction_line_regex = re.compile(r'(\d{2}/\d{2})\s+(.+?)\s+([\d,]+\.\d{2})')
 
-    pattern =r'/(\d{2}\/\d{2})\s+(.+?)\s+([\d,]+\.\d{2})/'
+    pattern = r'(\d{2}/\d{2})[^\n]*?([+-]?\$?\-?\d{1,3}(?:,\d{3})*(?:\.\d{2}))'
    
     # OUT transactions (negative)
-    for date_str, amt_str in transaction_line_regex.findall(out_section):
+    for date_str, amt_str in re.findall(pattern, out_section):
         try:
             amount = float(amt_str.replace(',', ''))
             daily_txns[date_str] -= amount
         except Exception as e:
-            print(e)
             continue
     
     # IN transactions (positive)
