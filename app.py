@@ -58,11 +58,14 @@ def process_bluevine(text):
     daily_txns = defaultdict(float)
     for date_str, amount_str in full_matches:
         try:
+            parsed_date = datetime.strptime(date_str, '%m/%d/%Y') if len(date_str.split('/')[-1]) == 4 \
+                          else datetime.strptime(date_str, '%m/%d/%y')
+            normalized_date = parsed_date.strftime('%d-%m-%Y')
             amount = float(amount_str.replace(',', '').replace('$', ''))
-            daily_txns[date_str] += amount
+            daily_txns[normalized_date] += amount
         except ValueError:
             continue
-
+    # sorted_txns = dict(sorted(daily_txns.items()))
     current_balance = starting_balance
     results = []
     for date in sorted(daily_txns.keys()):
@@ -165,10 +168,15 @@ def process_practive(text):
     daily_txns = defaultdict(float)
 
     # Pattern: MM/DD ... number (non-signed)
-    pattern = r'(\d{2}/\d{2})[^\n]*?([+-]?\$?\-?\d{1,3}(?:,\d{3})*(?:\.\d{2}))'
+    # pattern = r'(\d{2}/\d{2})[^\n]*?([+-]?\$?\-?\d{1,3}(?:,\d{3})*(?:\.\d{2}))'
+    import re
+
+    transaction_line_regex = re.compile(r'(\d{2}/\d{2})\s+(.+?)\s+([\d,]+\.\d{2})')
+
+    pattern =r'/(\d{2}\/\d{2})\s+(.+?)\s+([\d,]+\.\d{2})/'
    
     # OUT transactions (negative)
-    for date_str, amt_str in re.findall(pattern, out_section):
+    for date_str, amt_str in transaction_line_regex.findall(out_section):
         try:
             amount = float(amt_str.replace(',', ''))
             daily_txns[date_str] -= amount
