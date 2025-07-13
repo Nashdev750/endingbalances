@@ -59,11 +59,14 @@
       text-align: left;
       width: fit-content;
     }
+    table td:last-child {
+      text-align: right;
+    }
 
     table th {
       background-color: #f0f0f0;
     }
-
+    
     .positive {
       color: green;
     }
@@ -248,7 +251,7 @@
       formData.append('pdf_file', file);
 
       try {
-        const res = await fetch('/ending-balances/extract', {
+        const res = await fetch('/extract', {
           method: 'POST',
           body: formData
         });
@@ -270,7 +273,7 @@
           const tr = document.createElement('tr');
           tr.innerHTML = `
             <td>${row.date}</td>
-            <td>$${row.ending_balance.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+            <td style="color:${row.ending_balance.toString().includes('-')?'orange':'black'}">$${row.ending_balance.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
           `;
           tbody.appendChild(tr);
         });

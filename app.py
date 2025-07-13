@@ -3,6 +3,7 @@ import pdfplumber
 import re
 from collections import defaultdict
 from datetime import datetime
+import re
 
 app = Flask(__name__)
 
@@ -30,12 +31,12 @@ def extract_text():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 def process_statement(text):
-    if "Novo Platform" in text:
-        return {'balances': process_novo(text),"bank":"Novo Platform"} 
-    elif "Bluevine Inc" in text:
-        return {'balances': process_bluevine(text),"bank":"Bluevine Inc"}  
-    elif "PRACTIVE HEALTH INC" in text or "Yourpreviousbalanceasof" in text:
-        return {'balances': process_practive(text),"bank":"PRACTIVE HEALTH INC"}
+    if re.search(r"Novo Platform", text, re.IGNORECASE):
+        return {'balances': process_novo(text),"bank":"Novo"} 
+    elif "1 (888) 216-9619" in text:
+        return {'balances': process_bluevine(text),"bank":"Bluevine"}  
+    elif re.search(r"Truist", text, re.IGNORECASE):
+        return {'balances': process_practive(text),"bank":"Truist"}
     else:
         return "❌ Unknown bank format."
     
@@ -47,13 +48,9 @@ def process_bluevine(text):
 
     starting_balance = float(match.group(1).replace(',', ''))
 
-    # Match lines like: 06/01/25 H-E-B #697 ... $-86.22
-    txn_pattern = re.findall(
-        r'(\d{2}/\d{2}/\d{2})[^\n]*?\$\-?[\d,]+\.\d{2}', text)
-
     full_matches = re.findall(
-        r'(?P<date>\d{2}/\d{2}/\d{2})[^\n]*?\$(?P<amount>-?[\d,]+\.\d{2})', text)
-
+        r'(?P<date>\d{1,2}/\d{1,2}/\d{2,4})[^\n]*?(?P<amount>-?\$?[\d,]+\.\d{2})', text)
+ 
     if not full_matches:
         return "❌ No transactions matched in Bluevine."
 
@@ -61,7 +58,7 @@ def process_bluevine(text):
     daily_txns = defaultdict(float)
     for date_str, amount_str in full_matches:
         try:
-            amount = float(amount_str.replace(',', ''))
+            amount = float(amount_str.replace(',', '').replace('$', ''))
             daily_txns[date_str] += amount
         except ValueError:
             continue
@@ -93,7 +90,7 @@ def process_novo(text):
 
     # Extract Transactions
     txn_pattern = re.findall(
-        r'(Nov \d{2})[^\n]*?([+-]?\$?\-?\d{1,3}(?:,\d{3})*(?:\.\d{2}))',
+        r'((?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec) \d{2})[^\n]*?([+-]?\$?\-?\d{1,3}(?:,\d{3})*(?:\.\d{2}))',
         text
     )
 
@@ -106,10 +103,10 @@ def process_novo(text):
             daily_txns[clean_date] += amount
         except ValueError:
             continue
-
+        
     sorted_dates = sorted(
         daily_txns.keys(),
-        key=lambda d: datetime.strptime(d, "%b %d")
+        key=lambda d: datetime.strptime(d.replace("Sept", "Sep"), "%b %d")
     )
 
     output = []
@@ -169,14 +166,10 @@ def process_practive(text):
 
     # Pattern: MM/DD ... number (non-signed)
     pattern = r'(\d{2}/\d{2})[^\n]*?([+-]?\$?\-?\d{1,3}(?:,\d{3})*(?:\.\d{2}))'
-    print(len(sections))
-    print(in_section)
-    print('-------------------------------------------------')
-    print(out_section)
+   
     # OUT transactions (negative)
     for date_str, amt_str in re.findall(pattern, out_section):
         try:
-            print(date_str+" ->"+ amt_str)
             amount = float(amt_str.replace(',', ''))
             daily_txns[date_str] -= amount
         except Exception as e:
