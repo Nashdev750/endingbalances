@@ -5,6 +5,26 @@ from collections import defaultdict
 from datetime import datetime
 import re
 
+def standardize_date(date_str):
+    date_str = date_str.strip()
+
+    formats = [
+        "%m/%d",        # 03/03
+        "%d-%m-%Y",     # 01-03-2025
+        "%b %d",        # Sep 01
+        "%d-%m",        # 01-03 (without year)
+        "%Y-%m-%d",     # 2025-03-01
+    ]
+
+    for fmt in formats:
+        try:
+            dt = datetime.strptime(date_str, fmt)
+            return dt.strftime("%b %d")  # Example: 'Sep 01'
+        except ValueError:
+            continue
+
+    return date_str
+
 app = Flask(__name__)
 
 @app.route('/')
@@ -72,7 +92,7 @@ def process_bluevine(text):
         net = daily_txns[date]
         current_balance += net
         results.append({
-            'date': date,
+            'date': standardize_date(str(date)),
             'ending_balance': round(current_balance, 2),
             'net_change': round(net, 2)
         })
@@ -197,7 +217,7 @@ def process_practive(text):
         net = daily_txns[date]
         current_balance += net
         results.append({
-            'date': date,
+            'date': standardize_date(str(date)),
             'net_change': round(net, 2),
             'ending_balance': round(current_balance, 2)
         })

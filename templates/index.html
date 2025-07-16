@@ -273,7 +273,7 @@
           const tr = document.createElement('tr');
           tr.innerHTML = `
             <td>${row.date}</td>
-            <td style="color:${row.ending_balance.toString().includes('-')?'orange':'black'}">$${row.ending_balance.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+            <td style="color:${row.ending_balance.toString().includes('-')?'red':'black'}">$${row.ending_balance.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
           `;
           tbody.appendChild(tr);
         });
