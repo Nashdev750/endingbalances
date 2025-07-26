@@ -71,9 +71,13 @@ def process_flagstar(text):
         return "❌ Couldn't find Starting Balance for FlagStar."
     start_balance = float(match.group(1).replace(',', '').replace('$', ''))
     deposits = extractflagstar_deposits(text)
-    credits = extract_credits(text,True)
+    credits = extract_credits(text)
     debits = extract_flagstardebits(text)
-
+    checks = get_flagstarchecks(text)
+    print(deposits)
+    print(credits)
+    print(debits)
+    print(checks)
     # Step 3: Merge all transactions by date
     transaction_map = defaultdict(lambda: {'deposits': 0, 'credits': 0, 'debits': 0})
 
@@ -85,7 +89,7 @@ def process_flagstar(text):
         for date, amt in tx.items():
             transaction_map[standardize_date(date)]['credits'] += amt
 
-    for tx in debits:
+    for tx in debits + checks:
         for date, amt in tx.items():
             transaction_map[standardize_date(date)]['debits'] += amt
 
@@ -94,7 +98,7 @@ def process_flagstar(text):
     current_balance = start_balance
 
     current_balance = start_balance
-
+    print(transaction_map)
     for date in sorted(transaction_map.keys()):
         tx = transaction_map[date]
         net = tx['deposits'] + tx['credits'] - tx['debits']
@@ -105,7 +109,22 @@ def process_flagstar(text):
             'net_change': round(net, 2)
         })     
     return results
+def get_flagstarchecks(text):
+    # Step 1: Find the position of the first "Checks Cleared"
+    match = re.search(r'Checks Cleared', text)
+    if not match:
+        result = []
+    else:
+        start_pos = match.end()
+        remaining_text = text[start_pos:]
 
+        # Step 2: Extract all (date, amount) pairs after that point
+        pattern = r'(\d{2}/\d{2}/\d{4})\s+\$([\d,]+\.\d{2})'
+        matches = re.findall(pattern, remaining_text)
+
+        # Step 3: Build the result list
+        result = [{datetime.strptime(date, "%m/%d/%Y").strftime("%Y-%m-%d"): float(amount.replace(",", "").replace("$", ""))} for date, amount in matches]
+    return result 
 def extract_flagstardebits(text):
     match = re.search(
         r"Electronic Debits(.*?)Checks Cleared",
