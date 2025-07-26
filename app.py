@@ -54,13 +54,13 @@ def extract_text():
         return jsonify({'error': str(e)}), 500
 def process_statement(text):
     if re.search(r"Novo Platform", text, re.IGNORECASE):
-        return {'balances': process_novo(text),"bank":"/static/novo.jpeg"} 
+        return {'balances': process_novo(text),"bank":"/ending-balances/static/novo.jpeg"} 
     elif "1 (888) 216-9619" in text:
-        return {'balances': process_bluevine(text),"bank":"/static/bluevine.jpeg"}  
+        return {'balances': process_bluevine(text),"bank":"/ending-balances/static/bluevine.jpeg"}  
     elif re.search(r"Truist", text, re.IGNORECASE):
-        return {'balances': process_practive(text),"bank":"/static/truist.jpeg"}
+        return {'balances': process_practive(text),"bank":"/ending-balances/static/truist.jpeg"}
     elif "(888) 248-6423" in text:
-        return {'balances': process_flagstar(text),"bank":"/static/flagstar.jpeg"}
+        return {'balances': process_flagstar(text),"bank":"/ending-balances/static/flagstar.jpeg"}
     else:
         return "❌ Unknown bank format."
 
