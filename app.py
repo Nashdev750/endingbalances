@@ -44,6 +44,8 @@ def extract_text():
                 text = page.extract_text()
                 if text:
                     full_text += text + '\n'
+        with open('flag.txt', 'w') as fl:
+            fl.write(full_text)            
         result = process_statement(full_text)
         if isinstance(result, str):  # return error string
             return jsonify({'error': result})
@@ -52,14 +54,143 @@ def extract_text():
         return jsonify({'error': str(e)}), 500
 def process_statement(text):
     if re.search(r"Novo Platform", text, re.IGNORECASE):
-        return {'balances': process_novo(text),"bank":"Novo"} 
+        return {'balances': process_novo(text),"bank":"/static/novo.jpeg"} 
     elif "1 (888) 216-9619" in text:
-        return {'balances': process_bluevine(text),"bank":"Bluevine"}  
+        return {'balances': process_bluevine(text),"bank":"/static/bluevine.jpeg"}  
     elif re.search(r"Truist", text, re.IGNORECASE):
-        return {'balances': process_practive(text),"bank":"Truist"}
+        return {'balances': process_practive(text),"bank":"/static/truist.jpeg"}
+    elif "(888) 248-6423" in text:
+        return {'balances': process_flagstar(text),"bank":"/static/flagstar.jpeg"}
     else:
         return "❌ Unknown bank format."
-    
+
+
+def process_flagstar(text):
+    match = re.search(r"Beginning Balance\s(-?\$\d{1,3}(?:,\d{3})*(?:\.\d{2})?)", text)
+    if not match:
+        return "❌ Couldn't find Starting Balance for FlagStar."
+    start_balance = float(match.group(1).replace(',', '').replace('$', ''))
+    deposits = extractflagstar_deposits(text)
+    credits = extract_credits(text,True)
+    debits = extract_flagstardebits(text)
+
+    # Step 3: Merge all transactions by date
+    transaction_map = defaultdict(lambda: {'deposits': 0, 'credits': 0, 'debits': 0})
+
+    for tx in deposits:
+        for date, amt in tx.items():
+            transaction_map[standardize_date(date)]['deposits'] += amt
+
+    for tx in credits:
+        for date, amt in tx.items():
+            transaction_map[standardize_date(date)]['credits'] += amt
+
+    for tx in debits:
+        for date, amt in tx.items():
+            transaction_map[standardize_date(date)]['debits'] += amt
+
+    # Step 4: Compute balances in date order
+    results = []
+    current_balance = start_balance
+
+    current_balance = start_balance
+
+    for date in sorted(transaction_map.keys()):
+        tx = transaction_map[date]
+        net = tx['deposits'] + tx['credits'] - tx['debits']
+        current_balance += net
+        results.append({
+            'date': date,
+            'ending_balance': round(current_balance, 2),
+            'net_change': round(net, 2)
+        })     
+    return results
+
+def extract_flagstardebits(text):
+    match = re.search(
+        r"Electronic Debits(.*?)Checks Cleared",
+        text,
+        re.DOTALL
+    )
+    if not match:
+        return []
+
+    debits_section = match.group(1).strip()
+    # 3. Extract all date + amount matches
+    transactions = re.findall(
+        r"(\d{2}/\d{2}/\d{4}).*?\$([\d,]+\.\d{2})",
+        debits_section
+    )
+
+    # 4. Format into list of {date: amount} dicts
+    debits = [
+        {
+            datetime.strptime(date, "%m/%d/%Y").strftime("%Y-%m-%d"):
+            float(amount.replace(",", "").replace('$', ''))
+        }
+        for date, amount in transactions
+    ]
+
+    return debits
+def extract_credits(text, skip_rejected=False):
+    match = re.search(
+        r"Electronic Credits(.*?)Electronic Debits",
+        text,
+        re.DOTALL
+    )
+    if not match:
+        return []
+
+    credit_section = match.group(1).strip()
+
+    # 2. If skipping rejected, remove lines with (Rejected)
+    if skip_rejected:
+        credit_section = "\n".join(
+            line for line in credit_section.splitlines()
+            if "External Withdrawal" not in line
+        )
+
+    # 3. Extract all date + amount matches
+    transactions = re.findall(
+        r"(\d{2}/\d{2}/\d{4}).*?\$([\d,]+\.\d{2})",
+        credit_section
+    )
+
+    # 4. Format into list of {date: amount} dicts
+    credits = [
+        {
+            datetime.strptime(date, "%m/%d/%Y").strftime("%Y-%m-%d"):
+            float(amount.replace(",", "").replace('$', ''))
+        }
+        for date, amount in transactions
+    ]
+
+    return credits
+
+def extractflagstar_deposits(text):
+    match = re.search(
+        r"Deposits\s+Date Description Amount(.*?)\d+\sitem\(s\)\stotaling", 
+        text, 
+        re.DOTALL
+    )
+    if not match:
+        return []  # No deposit section found
+
+    deposit_section = match.group(1).strip()
+
+    # Extract date and amount pairs
+    pattern = re.findall(r"(\d{2}/\d{2}/\d{4}).*?\$([\d,]+\.\d{2})", deposit_section)
+
+    # Convert to structured list
+    transactions = [
+        {
+            datetime.strptime(date, "%m/%d/%Y").strftime("%Y-%m-%d"):
+            float(amount.replace(",", "").replace('$', ''))
+        }
+        for date, amount in pattern
+    ]
+
+    return transactions
 
 def process_bluevine(text):
     match = re.search(r'Beginning Balance on\s*\$([\d,]+\.\d{2})', text)
@@ -195,7 +326,10 @@ def process_practive(text):
     pattern = r'(\d{2}/\d{2})[^\n]*?([+-]?\$?\-?\d{1,3}(?:,\d{3})*(?:\.\d{2}))'
    
     # OUT transactions (negative)
-    for date_str, amt_str in re.findall(pattern, out_section):
+    out = re.findall(pattern, out_section)
+    intr = re.findall(pattern, in_section)
+
+    for date_str, amt_str in out:
         try:
             amount = float(amt_str.replace(',', ''))
             daily_txns[date_str] -= amount
@@ -203,7 +337,7 @@ def process_practive(text):
             continue
     
     # IN transactions (positive)
-    for date_str, amt_str in re.findall(pattern, in_section):
+    for date_str, amt_str in intr:
         try:
             amount = float(amt_str.replace(',', ''))
             daily_txns[date_str] += amount

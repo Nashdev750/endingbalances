@@ -122,6 +122,12 @@
     .clear-button:hover {
       background-color: #e60000;
     }
+    th img{
+      width: 100%;
+      object-fit: contain;
+      object-position: center;
+      height: 100%;
+    }
   </style>
 </head>
 <body>
@@ -144,7 +150,7 @@
       <table id="resultTable0">
           <thead>
           <tr>
-            <th colspan="2"></th>
+            <th colspan="2" style="padding: 0;height: 60px;"></th>
           </tr>
         </thead>
         <thead>
@@ -160,7 +166,7 @@
       <table id="resultTable1">
           <thead>
           <tr>
-            <th colspan="2"></th>
+            <th colspan="2" style="padding: 0;height: 60px;"></th>
           </tr>
         </thead>
         <thead>
@@ -176,7 +182,7 @@
       <table id="resultTable2">
         <thead>
           <tr>
-            <th colspan="2"></th>
+            <th colspan="2" style="padding: 0;height: 60px;"></th>
           </tr>
         </thead>
         <thead>
@@ -268,7 +274,12 @@
           errorOutput.textContent = 'No data found.';
           return;
         }
-        banktitle.innerText = result.bank
+        
+        const imageUrl = result.bank;
+        const img = document.createElement("img");
+        img.src = imageUrl;
+        banktitle.innerHtml = ""
+        banktitle.appendChild(img)
         balances.forEach(row => {
           const tr = document.createElement('tr');
           tr.innerHTML = `
@@ -287,13 +298,7 @@
 
     function clearTables() {
       const ok = confirm("Are you sure you want to clear all tables?");
-      if (!ok) return;
-      tables.forEach(table => {
-        table.querySelector('tbody').innerHTML = '';
-        table.querySelector('thead th').innerText = ''
-      });
-      filledTables = 0;
-      errorOutput.textContent = '';
+      window.location.reload()
     }
   </script>
 </body>
