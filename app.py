@@ -44,8 +44,8 @@ def extract_text():
                 text = page.extract_text()
                 if text:
                     full_text += text + '\n'
-        with open('flag.txt', 'w') as fl:
-            fl.write(full_text)            
+        # with open('flag.txt', 'w') as fl:
+        #     fl.write(full_text)            
         result = process_statement(full_text)
         if isinstance(result, str):  # return error string
             return jsonify({'error': result})
@@ -74,10 +74,6 @@ def process_flagstar(text):
     credits = extract_credits(text)
     debits = extract_flagstardebits(text)
     checks = get_flagstarchecks(text)
-    print(deposits)
-    print(credits)
-    print(debits)
-    print(checks)
     # Step 3: Merge all transactions by date
     transaction_map = defaultdict(lambda: {'deposits': 0, 'credits': 0, 'debits': 0})
 
@@ -98,7 +94,7 @@ def process_flagstar(text):
     current_balance = start_balance
 
     current_balance = start_balance
-    print(transaction_map)
+  
     for date in sorted(transaction_map.keys()):
         tx = transaction_map[date]
         net = tx['deposits'] + tx['credits'] - tx['debits']
@@ -127,7 +123,7 @@ def get_flagstarchecks(text):
     return result 
 def extract_flagstardebits(text):
     match = re.search(
-        r"Electronic Debits(.*?)Checks Cleared",
+        r"Debits\nDate Description Amount(.*?)Checks Cleared",
         text,
         re.DOTALL
     )
@@ -153,7 +149,7 @@ def extract_flagstardebits(text):
     return debits
 def extract_credits(text, skip_rejected=False):
     match = re.search(
-        r"Electronic Credits(.*?)Electronic Debits",
+        r"Credits\nDate Description Amount(.*?)Debits\nDate Description Amount",
         text,
         re.DOTALL
     )
@@ -171,17 +167,19 @@ def extract_credits(text, skip_rejected=False):
 
     # 3. Extract all date + amount matches
     transactions = re.findall(
-        r"(\d{2}/\d{2}/\d{4}).*?\$([\d,]+\.\d{2})",
+        r"(\d{2}/\d{2}/\d{4})(.*?)\$([\d,]+\.\d{2})",
         credit_section
     )
-
+     
+    
     # 4. Format into list of {date: amount} dicts
     credits = [
-        {
-            datetime.strptime(date, "%m/%d/%Y").strftime("%Y-%m-%d"):
-            float(amount.replace(",", "").replace('$', ''))
-        }
-        for date, amount in transactions
+    {
+        datetime.strptime(date, "%m/%d/%Y").strftime("%Y-%m-%d"):
+        -float(amount.replace(",", "").replace('$', '')) if "Non Flagstar ATM Trans Fee".lower() in description.lower()
+        else float(amount.replace(",", "").replace('$', ''))
+    }
+        for date, description, amount in transactions
     ]
 
     return credits
