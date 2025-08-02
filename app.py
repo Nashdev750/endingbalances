@@ -4,6 +4,7 @@ import re
 from collections import defaultdict
 from datetime import datetime
 import re
+from keybank import process_keybank
 
 def standardize_date(date_str):
     date_str = date_str.strip()
@@ -14,6 +15,8 @@ def standardize_date(date_str):
         "%b %d",        # Sep 01
         "%d-%m",        # 01-03 (without year)
         "%Y-%m-%d",     # 2025-03-01
+        "%m-%d-%y",     # 5-27-25
+        "%m-%d",
     ]
 
     for fmt in formats:
@@ -44,8 +47,8 @@ def extract_text():
                 text = page.extract_text()
                 if text:
                     full_text += text + '\n'
-        # with open('flag.txt', 'w') as fl:
-        #     fl.write(full_text)            
+        with open('keybank.txt', 'w', encoding='utf-8') as fl:
+            fl.write(full_text)            
         result = process_statement(full_text)
         if isinstance(result, str):  # return error string
             return jsonify({'error': result})
@@ -61,6 +64,8 @@ def process_statement(text):
         return {'balances': process_practive(text),"bank":"/ending-balances/static/truist.jpeg"}
     elif "(888) 248-6423" in text:
         return {'balances': process_flagstar(text),"bank":"/ending-balances/static/flagstar.jpeg"}
+    elif "1-888-539-4249" in text:
+        return {'balances': process_keybank(text),"bank":"/ending-balances/static/KeyBank-logo.webp"}
     else:
         return "❌ Unknown bank format."
 

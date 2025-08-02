@@ -1,5 +1,6 @@
 import re
 from datetime import datetime
+from collections import defaultdict
 
 def standardize_date_keybank(date_str):
     date_str = date_str.strip()
@@ -18,40 +19,40 @@ def standardize_date_keybank(date_str):
 
     return date_str
 
-with open('keybank.txt', 'r', encoding='utf-8') as fl:
-    text =  fl.read()
 def process_keybank(text):    
     parts = text.split('Subtractions\n')
-    adds = parts[0]
+    adds = parts[0].split('Additions\n')
     subsnfees = " ".join(parts[1:]) 
     parts2 = subsnfees.split('Fees and\ncharges Date')
     subs = parts2[0]
     feesncharges = parts2[1]
-    start_bal = extract_keybank_beginning_balance(adds)
-    ac_adds = get_transactions_keybank(adds)    
+    start_bal = extract_keybank_beginning_balance(adds[0])
+    ac_adds = get_transactions_keybank(adds[1])    
     ac_subs = get_transactions_keybank(subs)    
     ac_fees = extract_fee_keybank(feesncharges)
-    transactions = {}
-    transaction_map = {}
-    for date, amount in ac_adds[1:] + ac_fees:
-        transaction_map[date]['deposits'] += amount
-
+   
+    transaction_map = defaultdict(lambda: {'credits': 0, 'debits': 0})
+    depo=0
+    for date, amount in ac_adds + ac_fees:
+        transaction_map[date]['credits'] += amount
+        depo+=amount
+    print(ac_adds)    
+    print(depo)
     for date, amount in ac_subs:
-        if date in transactions:
-            transactions[date] -= amount
-        else:    
-            transactions[date] = -amount
-    results = []       
-    for date in sorted(transactions.keys()): 
-        amount = transactions[date] 
-        ending_balance = start_bal + amount 
-        start_bal =  ending_balance
+        transaction_map[date]['debits'] += amount
+   
+    results = [] 
+    current_balance = start_bal      
+    for date in sorted(transaction_map.keys()): 
+        tx = transaction_map[date]
+        net = tx['credits'] - tx['debits']
+        current_balance += net
         results.append({
             'date': date,
-            'ending_balance': round(ending_balance, 2),
+            'ending_balance': round(current_balance, 2),
             'net_change': round(amount, 2)
-        })   
-    print(results)    
+        }) 
+    # print(results)      
     return results    
 
 def get_transactions_keybank(text):
@@ -90,6 +91,3 @@ def extract_keybank_beginning_balance(text):
         amount_str = match.group(1).replace('$', '').replace(',', '')
         return float(amount_str)
     return 0 
-
-
-process_keybank(text)
