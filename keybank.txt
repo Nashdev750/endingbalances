@@ -2,148 +2,318 @@ KeyBank Business Banking Statement
 P.O.Box93885
 June 30, 2025
 Cleveland,OH44101-5885
-page 1 of 4
-323071003624
-3 T 307 00000 R EM T1
-VALENTINO LAWN CARE, INC
+page 1 of 7
+221231008733
+4 31 T 123 00000 R EM AO
+RIDE OR DIE DOUGH, LLC
 Questions or comments?
-84 DEKAY RD
+1783 WASHTENAW RD
 Call our Key Business Resource Center
-WARWICK NY 10990-2821
+YPSILANTI MI 48197-2020
 1-888-KEY4BIZ (1-888-539-4249)
 Enroll in Online Banking today at Key.com.
 Access your available accounts, transfer funds and view your transactions right from your PC.
-KeyNotes
-Your account was overdrawn this period. Enjoy the peace of mind that overdraft protection offers by calling
-1-800-KEY2YOU (1-800-539-2968), Key Business Resource Center for more information on all of KeyBank’s
-overdraft protection services.
-KeyBank Basic Business Checking 323071003624
-VALENTINO LAWN CARE, INC
-Beginning balance 5-31-25 $13,740.22
-13 Additions +40,183.13
-68 Subtractions -50,332.25
-Netfeesandcharges -323.00
-Ending balance 6-30-25 $3,268.10
+Key Business Reward Checking 221231008733
+RIDE OR DIE DOUGH, LLC
+Beginning balance 5-31-25 $62.73
+128 Additions +181,989.71
+75 Subtractions -181,453.25
+Ending balance 6-30-25 $599.19
 Additions
 Deposits Date Serial# Source
-6-4 Jobber - By Stritransfer $15,640.54
-6-5 Jobber - By Stritransfer 4,156.58
-6-6 Jobber - By Stritransfer 4,319.31
-6-9 Jobber - By Stritransfer 2,266.99
-6-10 Jobber - By Stritransfer 2,760.75
-6-11 Jobber - By Stritransfer 503.67
-6-12 Jobber - By Stritransfer 4,528.22
-6-17 Jobber - By Stritransfer 592.98
-6-20 Jobber - By Stritransfer 472.18
-6-23 Jobber - By Stritransfer 409.18
-6-27 Jobber - By Stritransfer 1,699.93
-6-27 Alteva of Warwicreceivable026Yevhzx1Gpw1E Altev 2,497.13
-6-30 Jobber - By Stritransfer 335.67
-Totaladditions $40,183.13
-323071003624 -03290
-2147
+6-2 5/3 Bankcard Sysgift Cent 4445029890605 $0.39
+6-2 5/3 Bankcard Sysgift Cent 4445029890605 10.72
+6-2 American Expresssettlement2211869797 21.34
+6-2 American Expresssettlement2211869797 33.25
+6-2 American Expresssettlement2211869797 35.15
+6-2 Deposit Branch 0223 Michigan 470.00
+6-2 Deposit Branch 0223 Michigan 735.00
+6-2 Rtp Rec Square US25060283529249 786.00
+6-2 Deposit Branch 0223 Michigan 912.00
+6-2 Deposit Branch 0223 Michigan 1,051.00
+6-2 5/3 Bankcard Syscomb. Dep.4445029890605 2,146.21
+6-2 5/3 Bankcard Syscomb. Dep.4445029890605 2,941.93
+6-2 5/3 Bankcard Syscomb. Dep.4445029890605 2,976.69
+6-3 5/3 Bankcard Sysgift Cent 4445029890605 9.41
+6-3 American Expresssettlement2211869797 45.25
+6-3 Uber USA 6787 Edi Paymntref*TN*Dvxzfw4T79*Sto 130.66
+6-3 5/3 Bankcard Syscomb. Dep.4445029890605 1,859.00
+6-4 American Expresssettlement2211869797 76.35
+6-4 Internet Trf Fr DDA 0000221231008394 0101 200.00
+6-4 5/3 Bankcard Syscomb. Dep.4445029890605 1,711.25
+6-5 5/3 Bankcard Sysgift Cent 4445029890605 2.99
+221231008733 -00101
+6140
 Business Banking Statement
 June 30, 2025
-page 2 of 4
-323071003624
+page 2 of 7
+221231008733
+Additions
+(con’t)
+Deposits Date Serial# Source
+6-5 Deposit Branch 0123 Michigan 498.00
+6-5 Deposit Branch 0123 Michigan 784.00
+6-5 Deposit Branch 0123 Michigan 800.00
+6-5 Internet Trf Fr DDA 0000221231010127 0101 961.00
+6-5 5/3 Bankcard Syscomb. Dep.4445029890605 1,454.97
+6-5 Internet Trf Fr DDA 0000221231008907 0101 1,700.00
+6-5 Internet Trf Fr DDA 0000229681014291 0101 1,900.00
+6-6 Grubhub Inc Jun Actvty 5.70
+6-6 American Expresssettlement2211869797 58.97
+6-6 Grubhub Inc May Actvty 96.09
+6-6 Doordash, Inc. US-8624 1,221.76
+6-6 5/3 Bankcard Syscomb. Dep.4445029890605 1,876.60
+6-9 5/3 Bankcard Sysgift Cent 4445029890605 2.98
+6-9 5/3 Bankcard Sysgift Cent 4445029890605 4.10
+6-9 American Expresssettlement2211869797 43.71
+6-9 American Expresssettlement2211869797 62.34
+6-9 Deposit Branch 0223 Michigan 547.00
+6-9 Deposit Branch 0223 Michigan 800.00
+6-9 Deposit Branch 0223 Michigan 912.00
+6-9 Deposit Branch 0223 Michigan 1,095.00
+6-9 5/3 Bankcard Syscomb. Dep.4445029890605 2,059.61
+6-9 5/3 Bankcard Syscomb. Dep.4445029890605 2,305.09
+6-9 5/3 Bankcard Syscomb. Dep.4445029890605 2,613.14
+6-10 American Expresssettlement2211869797 12.55
+6-10 Uber USA 6787 Edi Paymntref*TN*170D2Pmjle*Sto 194.43
+6-10 5/3 Bankcard Syscomb. Dep.4445029890605 1,304.52
+6-11 5/3 Bankcard Syscomb. Dep.4445029890605 1,419.15
+6-12 American Expresssettlement2211869797 41.54
+6-12 Deposit Branch 0123 Michigan 650.00
+6-12 Deposit Branch 0123 Michigan 809.00
+6-12 Deposit Branch 0123 Michigan 840.00
+6-12 5/3 Bankcard Syscomb. Dep.4445029890605 1,898.96
+6-12 102696 Wire Deposit Ace Funding Sour 8904 42,750.00
+6-13 Grubhub Inc Jun Actvty 14.89
+6-13 Grubhub Inc Jun Actvty 25.39
+6-13 Grubhub Inc Jun Actvty 129.36
+6-13 Deposit Branch 0223 Michigan 797.00
+6-13 Doordash, Inc. US-8624 1,347.37
+6-13 5/3 Bankcard Syscomb. Dep.4445029890605 1,755.60
+6-16 5/3 Bankcard Sysgift Cent 4445029890605 7.23
+6-16 5/3 Bankcard Sysgift Cent 4445029890605 8.68
+6-16 American Expresssettlement2211869797 27.24
+6-16 American Expresssettlement2211869797 51.74
+6-16 Deposit Branch 0223 Michigan 671.00
+6-16 Deposit Branch 0223 Michigan 707.00
+6-16 Deposit Branch 0223 Michigan 955.00
+6-16 5/3 Bankcard Syscomb. Dep.4445029890605 1,670.29
+6-16 5/3 Bankcard Syscomb. Dep.4445029890605 1,692.97
+6-16 5/3 Bankcard Syscomb. Dep.4445029890605 2,505.72
+6-17 American Expresssettlement2211869797 43.45
+221231008733 -00101
+6140
+Business Banking Statement
+June 30, 2025
+page 3 of 7
+221231008733
+Additions
+(con’t)
+Deposits Date Serial# Source
+6-17 Uber USA 6787 Edi Paymntref*TN*Ynqx1A17Zr*Sto 148.05
+6-17 5/3 Bankcard Syscomb. Dep.4445029890605 1,622.47
+6-18 American Expresssettlement2211869797 17.77
+6-18 Deposit Branch 0223 Michigan 480.00
+6-18 Deposit Branch 0223 Michigan 693.00
+6-18 5/3 Bankcard Syscomb. Dep.4445029890605 1,218.39
+6-18 Ace Funding 8904Payments 33,250.00
+6-20 Grubhub Inc Jun Actvty 43.23
+6-20 Deposit Branch 0123 Michigan 572.00
+6-20 Deposit Branch 0123 Michigan 675.00
+6-20 Internet Trf Fr DDA 0000229681014291 0101 800.00
+6-20 Doordash, Inc. US-8624 St-H9X5P9B4P2F8 1,107.17
+6-20 5/3 Bankcard Syscomb. Dep.4445029890605 1,696.14
+6-20 5/3 Bankcard Syscomb. Dep.4445029890605 1,804.68
+6-20 Internet Trf Fr DDA 0000221231008907 0101 2,668.00
+6-20 5/3 Bankcard Sysgift Cent 4445029890605 8.46
+6-20 American Expresssettlement2211869797 10.72
+6-20 Grubhub Inc Jun Actvty 13.43
+6-20 American Expresssettlement2211869797 38.13
+6-23 5/3 Bankcard Sysgift Cent 4445029890605 2.39
+6-23 American Expresssettlement2211869797 15.06
+6-23 American Expresssettlement2211869797 40.09
+6-23 American Expresssettlement2211869797 53.62
+6-23 Deposit Branch 0123 Michigan 675.00
+6-23 Deposit Branch 0123 Michigan 763.00
+6-23 Deposit Branch 0123 Michigan 965.00
+6-23 5/3 Bankcard Syscomb. Dep.4445029890605 1,697.34
+6-23 5/3 Bankcard Syscomb. Dep.4445029890605 2,180.43
+6-23 5/3 Bankcard Syscomb. Dep.4445029890605 2,475.49
+6-23 Internet Trf Fr DDA 0000221231008394 0101 2,800.00
+6-24 5/3 Bankcard Sysgift Cent 4445029890605 15.00
+6-24 American Expresssettlement2211869797 103.57
+6-24 Uber USA 6787 Edi Paymntref*TN*Wsjn9Mg9D5*Sto 169.44
+6-24 Internet Trf Fr DDA 0000221231009392 0101 675.00
+6-24 5/3 Bankcard Syscomb. Dep.4445029890605 2,055.08
+6-25 5/3 Bankcard Sysgift Cent 4445029890605 8.80
+6-25 American Expresssettlement2211869797 15.45
+6-25 5/3 Bankcard Syscomb. Dep.4445029890605 1,718.28
+6-26 American Expresssettlement2211869797 66.08
+6-26 Internet Trf Fr DDA 0000221231008683 0101 70.00
+6-26 Internet Trf Fr DDA 0000221231008394 0101 88.00
+6-26 Internet Trf Fr DDA 0000221232069437 0101 225.94
+6-26 5/3 Bankcard Syscomb. Dep.4445029890605 1,681.46
+6-26 Internet Trf Fr DDA 0000221231010127 0101 5,812.00
+6-27 American Expresssettlement2211869797 61.39
+6-27 Grubhub Inc Jun Actvty 77.86
+6-27 Grubhub Inc Jun Actvty 125.24
+6-27 Rtp Rec Square US25062783823640 661.74
+6-27 Doordash, Inc. US-8624 St-T6Q8F8E3R5C7 1,111.38
+6-27 5/3 Bankcard Syscomb. Dep.4445029890605 1,834.27
+221231008733 -00101
+6140
+Business Banking Statement
+June 30, 2025
+page 4 of 7
+221231008733
+Additions
+(con’t)
+Deposits Date Serial# Source
+6-30 American Expresssettlement2211869797 8.47
+6-30 American Expresssettlement2211869797 11.96
+6-30 5/3 Bankcard Sysgift Cent 4445029890605 12.55
+6-30 American Expresssettlement2211869797 20.44
+6-30 5/3 Bankcard Syscomb. Dep.4445029890605 2,022.86
+6-30 5/3 Bankcard Syscomb. Dep.4445029890605 2,248.77
+6-30 5/3 Bankcard Syscomb. Dep.4445029890605 2,267.89
+Totaladditions $181,989.71
 Subtractions
 PaperChecks *checkmissingfromsequence
 Check Date Amount Check Date Amount Check Date Amount
-1608 6-2 $456.00 1609 6-4 1,160.23 1610 6-4 4,000.00
-Paper Checks Paid $5,616.23
+1538 6-13 $866.56 1540 6-17 735.65 *1552 6-9 4,511.63
+1539 6-16 233.12
+Paper Checks Paid $6,346.96
 Withdrawals Date Serial# Location
-6-2 Preet Mart Citgo Pine Island NY $105.00
-6-2 Warwick Citgo Car Wash Warwick NY 100.00
-6-2 Exxon Florida Mart Goshen NY 141.00
-6-2 Exxon Chestnut Market Warwick NY 112.51
-6-2 ATM Key 5 Maple Ave Warwick NY 300.00
-6-2 Ocean Fund 8002931048 312.94
-6-2 Ocean Fund 8002931048 458.18
-6-2 Lowes Brc Syf Paymnt 800.00
-6-2 Ocean Fund 8002931048 800.00
-6-2 Sheffield Fin Phonedraft 998.11
-6-2 Ocean Fund 8002931048 1,000.00
-6-2 Ford Motor Cr Fordcredit 1,015.72
-6-2 Lowes Syf Paymnt 1,231.00
-6-2 Wells Fargo Bankeft Debit 1,353.17
-6-2 Ondeck Capital 134767 1,500.00
-6-2 Wells Fargo Bankeft Debit 1,521.60
-6-2 Wells Fargo Bankeft Debit 1,929.00
-6-3 Ocean Fund 8002931048 312.94
-6-3 Ocean Fund 8002931048 458.18
-6-3 Ocean Fund 8002931048 800.00
-6-4 Ocean Fund 8002931048 312.94
-6-4 Ocean Fund 8002931048 458.18
-6-4 Ocean Fund 8002931048 800.00
-6-4 Ocean Fund 8002931048 1,000.00
-6-5 Athenia Mason Route 23 Sussex NJ 237.44
-6-5 Ocean Fund 8002931048 312.94
-6-5 Ocean Fund 8002931048 458.18
-6-5 Ocean Fund 8002931048 800.00
-6-5 Ocean Fund 8002931048 1,000.00
-6-6 Wadeson Home Center Warwick NY 253.55
-6-6 Ws Healey Chevrolet New Hampton NY 1,559.90
-6-6 Adp Payroll Feesadp Fees 76.93
-6-6 Adp Payroll Feesadp Fees 307.80
-6-6 Ocean Fund 8002931048 312.94
-6-6 Ocean Fund 8002931048 458.18
-6-6 Ocean Fund 8002931048 800.00
-6-6 Ocean Fund Xtra Debit 1,000.00
-6-6 Ocean Fund 8002931048 1,000.00
-6-9 Ocean Fund 8002931048 312.94
-6-9 Ocean Fund 8002931048 458.18
-6-9 Ocean Fund 8002931048 800.00
-6-9 Ocean Fund 8002931048 1,000.00
-6-9 Ondeck Capital 134959 1,500.00
-6-9 Ford Motor Cr Retry Pymt 2,178.98
-323071003624 -03290
-2147
+6-2 Internet Trf To DDA 0000221231008394 0101 $760.00
+6-2 Internet Trf To DDA 0000221231008394 0101 3,870.00
+6-2 Adt Security Seradtpapach 88.90
+6-2 Caesar Fund Cashcd 2,053.66
+6-3 Internet Trf To DDA 0000221231008907 0101 5,300.00
+6-3 5/3 Bankcard Syscomb. Fees4445029890605 940.24
+6-3 Lce Main Single 2002301_100000000000\ 1,154.74
+6-4 5/3 Bankcard Syscomb. Exc.4445029890605 28.94
+6-4 Verifone Inc Payments 1667340 *03-Jun-2025 63.45
+6-4 Dma Advertising Single 15000109_10000000000\ 410.00
+6-4 Blfd Main Single 82086_10000000000000\ 437.57
+6-4 Pepsi Beveragecompv AR Pmt 1,102.01
+6-5 American Expressaxp Discnt2211869797 29.85
+6-5 Pepsi Beveragecompv AR Pmt 1,016.76
+6-5 Blueline3547 F Batch 7,058.92
+6-6 Blfd Main Single 82094_10000000000000\ 71.40
+6-6 The Sign Lady, Isale 1,138.37
+6-6 Gs Services 3032Debits 1,300.00
+6-9 5/3 Bankcard Syscomb. Exc.4445029890605 31.90
+6-9 KeyBank Crdtcardautopay 608.10
+6-9 Caesar Fund Cashcd 962.28
+6-10 Internet Trf To DDA 0000221231008683 0101 1,990.00
+6-10 Worldpay ACH Billing 04304N 795.47
+6-10 Lce Main Single 2002313_100000000000\ 1,248.49
+6-11 Blfd Main Single 82098_10000000000000\ 369.57
+6-12 Ncde514-796-6148Purchase 2,733.06
+6-12 Blueline3547 F Batch 6,573.22
+6-12 Internet Trf To DDA 0000221231008394 0101 40,000.00
+6-12 Pepsi Beveragecompv AR Pmt 1,072.83
+6-13 Fast Business Fifbf 2,250.00
+221231008733 -00101
+6140
 Business Banking Statement
 June 30, 2025
-page 3 of 4
-323071003624
+page 5 of 7
+221231008733
 Subtractions
 (con’t)
 Withdrawals Date Serial# Location
-6-9 Kubota Credit Payment 2,792.65
-6-10 ATM Key 5 Maple Ave Warwick NY 300.00
-6-10 Ocean Fund 8002931048 312.94
-6-10 Ocean Fund 8002931048 458.18
-6-10 Ocean Fund 8002931048 800.00
-6-10 Ocean Fund 8002931048 1,000.00
-6-11 Ocean Fund 8002931048 312.94
-6-11 Ocean Fund 8002931048 458.18
-6-12 Ocean Fund 8002931048 312.94
-6-12 Ocean Fund 8002931048 458.18
-6-12 Ocean Fund 8002931048 800.00
-6-12 Ocean Fund 8002931048 1,000.00
-6-13 Ocean Fund 8002931048 312.94
-6-13 Ocean Fund 8002931048 458.18
-6-13 Ocean Fund 8002931048 800.00
-6-16 Ocean Fund 8002931048 312.94
-6-16 Ocean Fund 8002931048 458.18
-6-17 Ocean Fund 8002931048 312.94
-6-20 Lincoln Heritageins Prem 81.40
-6-27 Ondeck Capital 135482 25.00
-6-30 ATM Key 5 Maple Ave Warwick NY 300.00
-Totalsubtractions $50,332.25
-Fees and
-charges Date Quantity UnitCharge
-6-2-25 Overdraft Item Charge 1 20.00 -$20.00
-6-3-25 Summary - Overdraft Item Charge 3 20.00 -60.00
-6-9-25 Overdraft Item Charge 1 20.00 -20.00
-6-10-25 Summary - Overdraft Item Charge 2 20.00 -40.00
-6-11-25 Summary - Overdraft Item Charge 2 20.00 -40.00
-6-13-25 Summary - Overdraft Item Charge 2 20.00 -40.00
-6-16-25 Summary - Overdraft Item Charge 2 20.00 -40.00
-6-17-25 Overdraft Item Charge 1 20.00 -20.00
-6-20-25 Overdraft Item Charge 1 20.00 -20.00
-6-20-25 Recurring Overdraft Service Charge 1 20.00 -20.00
-6-30-25 Paper Statement Fee 1 3.00 -3.00
-Fees and charges assessed this period -$323.00
-323071003624 -03290
-2147
-page 4 of 4
+6-13 Blfd Main Single 82104_10000000000000\ 63.70
+6-13 The Sign Lady, Isale 123.11
+6-13 Blfd Main Single 82105_10000000000000\ 230.00
+6-16 Farm Bureau Lifepremium 84.20
+6-16 Farm Bureau Lifepremium 298.85
+6-16 Farm Bureau Lifepremium 510.38
+6-16 Caesar Fund Cashcd 1,040.41
+6-17 Internet Trf To DDA 0000221231008683 0101 1,690.00
+6-17 Farm Bureau Lifepremium 36.04
+6-17 Farm Bureau Lifepremium 43.00
+6-17 Farm Bureau Lifepremium 53.94
+6-17 Comcast-Xfinity Cable Svcs 185.72
+6-18 Internet Trf To CCA Xxxxxxxxxxxx5887 0101 1,000.00
+6-18 Internet Trf To CCA Xxxxxxxxxxxx1492 0101 1,000.00
+6-18 Internet Trf To DDA 0000221231008683 0101 3,100.00
+6-18 Internet Trf To DDA 0000221231010127 0101 35,000.00
+6-18 Blfd Main Single 82112_10000000000000\ 349.26
+6-20 Blfd Main Single 82118_10000000000000\ 58.10
+6-20 Pepsi Beveragecompv AR Pmt 399.01
+6-20 Dte Energy 800477474 1,726.38
+6-20 Fast Business Fifbf 1,750.00
+6-20 Blueline3547 F Batch 6,630.69
+6-23 Powervacofmichigpurchase 141.00
+6-23 Pepsi Beveragecompv AR Pmt 665.32
+6-23 Ace Funding 3238523219 2,595.00
+6-23 Ace Funding 3238523219 2,915.00
+6-23 Ace Funding 3238523219 5,381.00
+6-24 Dte Energy 800477474 716.71
+6-24 Lce Main Single 2002340_100000000000\ 1,085.45
+6-24 Lce Main Single 2002336_100000000000\ 1,199.23
+6-25 Blfd Main Single 82128_10000000000000\ 421.32
+6-26 Stateof Michigandir Debit Ref*11*0000092822*Pay 2,050.00
+6-26 Blueline3547 F Batch 6,930.43
+6-27 Blfd Main Single 82134_10000000000000\ 71.40
+6-27 Ace Funding 3238523219 2,915.00
+6-30 Internet Trf To CCA Xxxxxxxxxxxx7974 0101 729.00
+6-30 Orkin Orkin Pest 91.00
+6-30 Account Servicinweb Pymnt 1,404.31
+6-30 Caesar Fund Cashcd 1,903.90
+6-30 Ace Funding 3238523219 2,595.00
+Transfers Date Serial# Destination
+6-25 Automatic Payment To Cash Reserve Credit $463.70
+Totalsubtractions $181,453.25
+221231008733 -00101
+6140
+Business Banking Statement
+June 30, 2025
+page 6 of 7
+221231008733
+Cash Reserve Credit 221231008733
+RIDE OR DIE DOUGH, LLC
+Beginning balance 5-31-25 $9,766.26
+1 Payment and other credit -463.70
+1 Advance and other charge +697.44
+Interestcharged +135.19
+Outstanding balance 6-30-25 $10,135.19
+Minimumamountdue $468.49
+Paymentdue date 7-25-25
+Creditavailable 0.00
+Creditlimit 10,000.00
+Payments and
+other credits Date Source
+6-25 Automatic Payment To Cash Reserve Credit $463.70
+Total $463.70
+Advances and
+other debits Date Source
+6-26 Internet Trf To DDA 0000221231008394 0101 $697.44
+Total $697.44
+Interest
+Charge
+ANNUAL Daily X Daysin X Average = INTEREST
+PERCENTAGERATE periodicrate billingcycle dailybalance CHARGED
+17.00000% 0.04658% 30 $9,675.39 $135.19
+To computeyour average daily balancewe add up eachday’s closing daily balanceand divide
+the total by the number of days in the statement period. The closing daily balance equals your
+unpaid principal balance minus payments and credits posted to your account that day. We
+transferanyclosingdailycreditbalancesyoumayhavetoyourdepositaccountonthedaythey
+occur.
+For those contracts which contain a variable rate provision, the periodic rate may vary on your
+CashReserveCreditaccount.
+Inquiry QuestionsaboutyourCashReserveCreditline?Pleasewriteusattheaddressbelow.
+and payment
+information Whenyousendpaymentstothisaddress,theyarecreditedtoyouraccountonthedaywereceivethem:
+KeyBank National Association
+OH-01-51-2013
+P.O. Box 94825
+Cleveland, OH 44101-4825
+Payments you send to any other KeyBank location are credited within 5 business days after we receive them.
+221231008733 -00101
+6140
+page 7 of 7
 CUSTOMER ACCOUNT DISCLOSURES
 ThefollowingdisclosuresapplyonlytoaccountscoveredbytheFederalTruth-in-Lending
 ActortheFederalElectronicFundsTransferAct,asamended,orsimilarstatelaws.
@@ -236,5 +406,5 @@ TOTAL Ł $ yourcheckregisterbalance.
 Pleaseincludeyouraccountnumber,acopyofyourcreditreportreflectingtheinaccurate
 information, name, address, city, state, and zip code, and an explanation of why you
 believetheinformationisinaccurate.
-323071003624 -03290
-2147
+221231008733 -00101
+6140

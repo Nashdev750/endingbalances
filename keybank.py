@@ -20,12 +20,19 @@ def standardize_date_keybank(date_str):
     return date_str
 
 def process_keybank(text):    
-    parts = text.split('Subtractions\n')
-    adds = parts[0].split('Additions\n')
-    subsnfees = " ".join(parts[1:]) 
-    parts2 = subsnfees.split('Fees and\ncharges Date')
-    subs = parts2[0]
-    feesncharges = parts2[1]
+    parts = text.split('Subtractions\nPaperChecks')
+    print(str(len(parts))+" parts")
+    adds = parts[0].split('Additions\nDeposits')
+    parts2 = parts[1].split('Fees and\ncharges Date')
+    subs = ""
+    if 'Totalsubtractions' in parts2[0]:
+        subs = parts2[0].split('Totalsubtractions')[0]
+    else:
+        subs = parts2[0].split('Total subtractions')[0]
+
+    feesncharges = ""
+    if len(parts2) > 1:
+        feesncharges = parts2[1]
     start_bal = extract_keybank_beginning_balance(adds[0])
     ac_adds = get_transactions_keybank(adds[1])    
     ac_subs = get_transactions_keybank(subs)    

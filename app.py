@@ -324,10 +324,12 @@ def compute_balances(starting_balance, txn_data, date_fmt="%b %d"):
 
 def process_practive(text):
     # Extract starting balance
-    # print(text)
+    print(text)
     match = re.search(r'Yourpreviousbalanceasof[\d/]+ \$-?([\d,]+\.\d{2})', text)
     if not match:
-        return "❌ Couldn't find Starting Balance for Practive Health."
+        match = re.search(r'Your previous balance as of[\d/]+ \$-?([\d,]+\.\d{2})', text)
+        if not match:
+            return "❌ Couldn't find Starting Balance for Practive Health."
 
     starting_balance = float(match.group(0).split(' ')[-1].replace(',', '').replace('$',''))
     # Split the text by the transaction divider
