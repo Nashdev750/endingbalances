@@ -28,7 +28,7 @@ def generate():
                     data=pdf_data,
                 ),
                 types.Part.from_text(
-                    text="Perform OCR on this PDF and return all extracted text with page numbers."
+                    text="Extract the text from all pages of the PDF, mantain the formatting  and structure of the original PDF, also mantain all the table layouts for any tables in the PDF"
                 ),
             ],
         ),
@@ -47,7 +47,7 @@ def generate():
     ):
         if chunk.text:
             extracted_text += chunk.text
-
+    return extracted_text        
     # Now create a searchable PDF: overlay recognized text on original images
     reader = PdfReader(pdf_path)
     writer = PdfWriter()
