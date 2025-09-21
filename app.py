@@ -47,7 +47,7 @@ def extract_text():
                 text = page.extract_text()
                 if text:
                     full_text += text + '\n'
-        with open('keybank.txt', 'w', encoding='utf-8') as fl:
+        with open('truistbank.txt', 'w', encoding='utf-8') as fl:
             fl.write(full_text)            
         result = process_statement(full_text)
         if isinstance(result, str):  # return error string
@@ -61,7 +61,7 @@ def process_statement(text):
     elif "1 (888) 216-9619" in text:
         return {'balances': process_bluevine(text),"bank":"/ending-balances/static/bluevine.jpeg"}  
     elif re.search(r"Truist", text, re.IGNORECASE):
-        return {'balances': process_practive(text),"bank":"/ending-balances/static/truist.jpeg"}
+        return {'balances': process_practive_consolidated(text),"bank":"/ending-balances/static/truist.jpeg"}
     elif "(888) 248-6423" in text:
         return {'balances': process_flagstar(text),"bank":"/ending-balances/static/flagstar.jpeg"}
     elif "1-888-539-4249" in text:
@@ -322,20 +322,54 @@ def compute_balances(starting_balance, txn_data, date_fmt="%b %d"):
         })
     return results
 
+def extract_account_number(text: str) -> str | None:
+    # Split text into lines
+    lines = text.splitlines()
+    
+    for i, line in enumerate(lines):
+        if line.strip().startswith("Accountsummary") and i > 0:
+            # Get the line immediately above
+            prev_line = lines[i-1].strip()
+            # Extract the longest continuous digit sequence
+            match = re.search(r"\d{6,}", prev_line)  # 6+ digits to filter noise
+            if match:
+                return match.group(0)
+    return None
+def process_practive_consolidated(text, substring="Accountsummary"):
+    count = text.count(substring)
+    
+    if count != 2:
+        return process_practive(text)
+    first_index = text.find(substring)
+    second_index = text.find(substring, first_index + len(substring))
+    account1 = text[:second_index]
+    account2 = text[second_index:]
+
+    results1 = []
+    results2 = []
+    try:
+        results1 = process_practive(account1)
+    except: pass  
+    try:
+        results2 = process_practive(account2)
+    except: pass    
+
+    if len(results1) > len(results2):
+        return results1
+    return results2
+    
 def process_practive(text):
-    # Extract starting balance
-    print(text)
     match = re.search(r'Yourpreviousbalanceasof[\d/]+ \$-?([\d,]+\.\d{2})', text)
     if not match:
         match = re.search(r'Your previous balance as of[\d/]+ \$-?([\d,]+\.\d{2})', text)
         if not match:
-            return "❌ Couldn't find Starting Balance for Practive Health."
+            return []
 
     starting_balance = float(match.group(0).split(' ')[-1].replace(',', '').replace('$',''))
     # Split the text by the transaction divider
     sections = text.split('Deposits,creditsandinterest')
     if len(sections) < 2:
-        return "❌ Could not split IN and OUT transaction sections for Practive."
+        return []
 
     out_section = sections[1]
     in_section = sections[2]

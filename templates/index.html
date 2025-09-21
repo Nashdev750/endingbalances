@@ -1,305 +1,172 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Bank PDF Ending Balances</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #f4f4f4;
-      padding: 2rem;
-      max-width: 900px;
-      margin: auto;
-    }
-
-    h2 {
-      text-align: center;
-      color: #333;
-    }
-
-    .drop-zone {
-      border: 2px dashed #bbb;
-      border-radius: 8px;
-      padding: 40px;
-      text-align: center;
-      color: #777;
-      background-color: #fff;
-      cursor: pointer;
-      transition: background 0.3s;
-      margin-bottom: 20px;
-    }
-
-    .drop-zone.dragover {
-      background-color: #eef;
-      border-color: #3399ff;
-      color: #3399ff;
-    }
-
-    input[type="file"] {
-      display: none;
-    }
-
-    .loader {
-      text-align: center;
-      margin-top: 10px;
-      font-style: italic;
-      color: #888;
-    }
-
-    table {
-      border-collapse: collapse;
-      width: 100%;
-      background: #fff;
-      margin-top: 1rem;
-    }
-
-    table th, table td {
-      padding: 10px;
-      border: 1px solid #ddd;
-      text-align: left;
-      width: fit-content;
-    }
-    table td:last-child {
-      text-align: right;
-    }
-
-    table th {
-      background-color: #f0f0f0;
-    }
-    
-    .positive {
-      color: green;
-    }
-
-    .negative {
-      color: red;
-    }
-
-    #errorOutput {
-      color: red;
-      text-align: center;
-      margin-top: 1rem;
-    }
-
-    .output {
-      display: flex;
-      justify-content: space-between;
-      align-items: start;
-      gap: 10px;
-      width: 100%;
-    }
-
-    .table {
-      width: 33%;
-      position: relative;
-    }
-
-    .table p {
-      position: absolute;
-      background-color: whitesmoke;
-      padding: 0 5px;
-      right: 0;
-      top: -35%;
-      border: 1px solid gray;
-      border-radius: 4px;
-    }
-
-    .button-container {
-      text-align: center;
-      margin-top: 1rem;
-    }
-
-    .clear-button {
-      padding: 8px 16px;
-      font-size: 14px;
-      background-color: #ff4d4d;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-
-    .clear-button:hover {
-      background-color: #e60000;
-    }
-    th img{
-      width: 100%;
-      object-fit: contain;
-      object-position: center;
-      height: 100%;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank Statement Comparison Tool</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-  <h2>Bank Statement Daily Balances</h2>
+    <div class="container">
+        <header class="header">
+            <h1>Bank Statement Comparison</h1>
+            <div class="header-controls">
+                <button id="toggleDropZone" class="btn btn-outline">
+                    <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <polyline points="6,9 12,15 18,9"/>
+                    </svg>
+                    Hide Drop Zone
+                </button>
+                <button id="clearAll" class="btn btn-secondary">Clear All Tables</button>
+            </div>
+        </header>
 
-  <div class="drop-zone" id="dropZone" onclick="fileInput.click()">
-    <p>Click or drag a PDF file here to extract daily ending balances</p>
-    <input type="file" id="fileInput" accept=".pdf">
-  </div>
+        <!-- Single Drop Zone -->
+        <div class="drop-zone-container" id="dropZoneContainer">
+            <div class="drop-zone" id="mainDropZone">
+                <div class="drop-zone-content">
+                    <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                        <polyline points="17,8 12,3 7,8"/>
+                        <line x1="12" y1="3" x2="12" y2="15"/>
+                    </svg>
+                    <p class="drop-text">Drop Bank Statement PDFs Here</p>
+                    <p class="drop-subtext">or click to browse • Up to 4 statements</p>
+                </div>
+                <input type="file" id="fileInput" accept=".pdf" multiple hidden>
+            </div>
+            
+            <!-- Processing Queue Display -->
+            <div class="processing-queue" id="processingQueue" style="display: none;">
+                <div class="queue-header">
+                    <h3>Processing Files</h3>
+                    <span class="queue-count" id="queueCount">0 files in queue</span>
+                </div>
+                <div class="queue-items" id="queueItems"></div>
+            </div>
+        </div>
 
-     <div class="button-container" style="margin-top: -10px; margin-bottom: 10px;">
-    <button class="clear-button" onclick="clearTables()">🧹 Clear Tables</button>
-  </div>
+        <!-- Full Page Drop Modal -->
+        <div class="drop-modal" id="dropModal">
+            <div class="drop-modal-backdrop"></div>
+            <div class="drop-modal-content">
+                <div class="drop-modal-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                        <polyline points="17,8 12,3 7,8"/>
+                        <line x1="12" y1="3" x2="12" y2="15"/>
+                    </svg>
+                </div>
+                <h2>Drop Files to Process</h2>
+                <p>Release your bank statement PDFs anywhere on this page</p>
+                <div class="drop-modal-status" id="dropModalStatus"></div>
+            </div>
+        </div>
 
-  <div class="loader" id="loader"></div>
-  <div id="errorOutput"></div>
+        <!-- Tables Grid -->
+        <div class="tables-grid">
+            <div class="table-container">
+                <div class="table-header">
+                    <h3></h3>
+                    <div class="table-status">
+                        <span class="status-indicator" id="status-1">Empty</span>
+                        <button class="btn-clear" data-table="1">Clear</button>
+                    </div>
+                </div>
+                <div class="table-wrapper">
+                    <table id="table-1" class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Ending Balance</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-1">
+                            <tr class="empty-row">
+                                <td colspan="2">No data available</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 
-  <div class="output">
-    <div class="table">
-      <table id="resultTable0">
-          <thead>
-          <tr>
-            <th colspan="2" style="padding: 0;height: 60px;"></th>
-          </tr>
-        </thead>
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Ending Balance</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
+            <div class="table-container">
+                <div class="table-header">
+                    <h3></h3>
+                    <div class="table-status">
+                        <span class="status-indicator" id="status-2">Empty</span>
+                        <button class="btn-clear" data-table="2">Clear</button>
+                    </div>
+                </div>
+                <div class="table-wrapper">
+                    <table id="table-2" class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Ending Balance</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-2">
+                            <tr class="empty-row">
+                                <td colspan="2">No data available</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <div class="table-header">
+                    <h3></h3>
+                    <div class="table-status">
+                        <span class="status-indicator" id="status-3">Empty</span>
+                        <button class="btn-clear" data-table="3">Clear</button>
+                    </div>
+                </div>
+                <div class="table-wrapper">
+                    <table id="table-3" class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Ending Balance</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-3">
+                            <tr class="empty-row">
+                                <td colspan="2">No data available</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <div class="table-header">
+                    <h3></h3>
+                    <div class="table-status">
+                        <span class="status-indicator" id="status-4">Empty</span>
+                        <button class="btn-clear" data-table="4">Clear</button>
+                    </div>
+                </div>
+                <div class="table-wrapper">
+                    <table id="table-4" class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Ending Balance</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-4">
+                            <tr class="empty-row">
+                                <td colspan="2">No data available</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="table">
-      <table id="resultTable1">
-          <thead>
-          <tr>
-            <th colspan="2" style="padding: 0;height: 60px;"></th>
-          </tr>
-        </thead>
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Ending Balance</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-    </div>
-    <div class="table">
-      <table id="resultTable2">
-        <thead>
-          <tr>
-            <th colspan="2" style="padding: 0;height: 60px;"></th>
-          </tr>
-        </thead>
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Ending Balance</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-    </div>
-  </div>
 
-
-
-  <script>
-    const dropZone = document.getElementById('dropZone');
-    const fileInput = document.getElementById('fileInput');
-    const loader = document.getElementById('loader');
-    const errorOutput = document.getElementById('errorOutput');
-    const tables = [
-      document.getElementById('resultTable0'),
-      document.getElementById('resultTable1'),
-      document.getElementById('resultTable2')
-    ];
-    let filledTables = 0;
-
-    dropZone.addEventListener('dragover', e => {
-      e.preventDefault();
-      dropZone.classList.add('dragover');
-    });
-
-    dropZone.addEventListener('dragleave', () => {
-      dropZone.classList.remove('dragover');
-    });
-
-    dropZone.addEventListener('drop', e => {
-      e.preventDefault();
-      dropZone.classList.remove('dragover');
-      const file = e.dataTransfer.files[0];
-      handleFile(file);
-    });
-
-    fileInput.addEventListener('change', () => {
-      const file = fileInput.files[0];
-      handleFile(file);
-    });
-
-    function handleFile(file) {
-      errorOutput.textContent = '';
-      if (!file || file.type !== 'application/pdf') {
-        errorOutput.textContent = '❌ Please select a valid PDF file.';
-        return;
-      }
-
-      if (filledTables >= 3) {
-        errorOutput.textContent = '❌ All tables are full. Please clear the tables to add more.';
-        return;
-      }
-
-      processFile(file, filledTables);
-    }
-
-    async function processFile(file, tableIndex) {
-      loader.textContent = 'Processing...';
-      const tbody = tables[tableIndex].querySelector('tbody');
-      const banktitle = tables[tableIndex].querySelector('thead th');
-
-      tbody.innerHTML = '';
-
-      const formData = new FormData();
-      formData.append('pdf_file', file);
-
-      try {
-        const res = await fetch('/ending-balances/extract', {
-          method: 'POST',
-          body: formData
-        });
-        const result = await res.json();
-        loader.textContent = '';
-
-        if (result.error) {
-          errorOutput.textContent = result.error;
-          return;
-        }
-
-        const balances = result.balances;
-        if (!balances.length) {
-          errorOutput.textContent = 'No data found.';
-          return;
-        }
-        
-        const imageUrl = result.bank;
-        const img = document.createElement("img");
-        img.src = imageUrl;
-        banktitle.innerHtml = ""
-        banktitle.appendChild(img)
-        balances.forEach(row => {
-          const tr = document.createElement('tr');
-          tr.innerHTML = `
-            <td>${row.date}</td>
-            <td style="color:${row.ending_balance.toString().includes('-')?'red':'black'}">$${row.ending_balance.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
-          `;
-          tbody.appendChild(tr);
-        });
-
-        filledTables++;
-      } catch (err) {
-        loader.textContent = '';
-        errorOutput.textContent = '❌ Error: ' + err.message;
-      }
-    }
-
-    function clearTables() {
-      const ok = confirm("Are you sure you want to clear all tables?");
-      window.location.reload()
-    }
-  </script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>

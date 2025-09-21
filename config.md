@@ -1,0 +1,9 @@
+AHmA1oGS4QhbC407E7ubhzhVkujF0+fOLVPOZo3gbEI=
+
+[Interface]
+PrivateKey = AHmA1oGS4QhbC407E7ubhzhVkujF0+fOLVPOZo3gbEI=
+Address = 37.60.228.238/24
+ListenPort = 51820
+
+ROUTER_USERNAME=admin
+ROUTER_PASSWORD=Nashdev@98976FG
