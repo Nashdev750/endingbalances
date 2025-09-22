@@ -5,6 +5,7 @@ from collections import defaultdict
 from datetime import datetime
 import re
 from keybank import process_keybank
+from flask_cors import CORS
 
 def standardize_date(date_str):
     date_str = date_str.strip()
@@ -30,6 +31,10 @@ def standardize_date(date_str):
 
 app = Flask(__name__)
 
+CORS(app, resources={r"/*": {"origins": [
+    "https://openmca.com",
+    "https://openmca.com/ending-balances"
+]}})
 @app.route('/')
 def index():
     return render_template('index.html')
