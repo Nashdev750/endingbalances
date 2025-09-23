@@ -572,7 +572,6 @@ class BankStatementComparison {
             tableHeader.innerHTML = `
                 <div class="table-title-with-logo">
                     <img src="${data.bankLogo}" alt="Bank Logo" class="bank-logo" onerror="this.style.display='none'">
-                    <span>Statement ${tableNumber}</span>
                 </div>
             `;
         } else {
