@@ -101,13 +101,7 @@ class BankStatementComparison {
             // Only handle drop if not over the main drop zone
             if (!e.target.closest('.drop-zone')) {
                 const files = Array.from(e.dataTransfer.files);
-                const pdfFiles = files.filter(file => file.type === 'application/pdf');
-                
-                if (pdfFiles.length > 0) {
-                    this.handleFileUpload(pdfFiles);
-                } else if (files.length > 0) {
-                    this.showNotification('Please upload PDF files only', 'error');
-                }
+                this.handleFileUpload(files);
             }
         });
     }
@@ -177,13 +171,7 @@ class BankStatementComparison {
             
             if (!dropZone.classList.contains('disabled')) {
                 const files = Array.from(e.dataTransfer.files);
-                const pdfFiles = files.filter(file => file.type === 'application/pdf');
-                
-                if (pdfFiles.length > 0) {
-                    this.handleFileUpload(pdfFiles);
-                } else {
-                    this.showNotification('Please upload PDF files only', 'error');
-                }
+                this.handleFileUpload(files);
             }
         });
     }
@@ -209,15 +197,27 @@ class BankStatementComparison {
 
     handleFileUpload(files) {
         const availableSlots = this.getAvailableTableSlots();
-        const filesToProcess = files.slice(0, availableSlots.length);
+        const pdfFiles = files.filter(file => file.type === 'application/pdf');
+        
+        if (pdfFiles.length === 0) {
+            this.showNotification('Please upload PDF files only', 'error');
+            return;
+        }
+        
+        const filesToProcess = pdfFiles.slice(0, availableSlots.length);
         
         if (filesToProcess.length === 0) {
             this.showNotification('All tables are full. Please clear some tables first.', 'warning');
             return;
         }
 
-        if (files.length > filesToProcess.length) {
-            this.showNotification(`Only processing ${filesToProcess.length} files. ${files.length - filesToProcess.length} files skipped (no available tables).`, 'warning');
+        if (pdfFiles.length > filesToProcess.length) {
+            this.showNotification(`Only processing ${filesToProcess.length} files. ${pdfFiles.length - filesToProcess.length} files skipped (no available tables).`, 'warning');
+        }
+        
+        if (files.length > pdfFiles.length) {
+            const nonPdfCount = files.length - pdfFiles.length;
+            this.showNotification(`${nonPdfCount} non-PDF file${nonPdfCount !== 1 ? 's' : ''} ignored. Only PDF files are supported.`, 'warning');
         }
 
         // Add files to processing queue
@@ -265,15 +265,23 @@ class BankStatementComparison {
         this.isProcessing = true;
         this.showProcessingQueue();
 
-        while (this.processingQueue.length > 0) {
-            const queueItem = this.processingQueue.find(item => item.status === 'queued');
-            if (!queueItem) break;
-
-            queueItem.status = 'processing';
-            this.updateQueueItem(queueItem);
-
+        // Get all queued items and process them simultaneously
+        const queuedItems = this.processingQueue.filter(item => item.status === 'queued');
+        
+        if (queuedItems.length === 0) {
+            this.isProcessing = false;
+            return;
+        }
+        
+        // Mark all items as processing
+        queuedItems.forEach(item => {
+            item.status = 'processing';
+            this.updateQueueItem(item);
+        });
+        
+        // Process all items simultaneously
+        const processingPromises = queuedItems.map(async (queueItem) => {
             try {
-                // Simulate API call - replace with actual API integration
                 const data = await this.processStatementAPI(queueItem.file, queueItem.targetTable);
                 
                 // Populate table with results
@@ -290,12 +298,15 @@ class BankStatementComparison {
                 this.updateQueueItem(queueItem);
                 this.updateTableStatus(queueItem.targetTable, 'error');
             }
-
+            
             // Remove completed/error items after a delay
             setTimeout(() => {
                 this.removeQueueItem(queueItem.id);
             }, 2000);
-        }
+        });
+        
+        // Wait for all processing to complete
+        await Promise.allSettled(processingPromises);
 
         this.isProcessing = false;
         this.updateDropZoneState();
@@ -423,7 +434,7 @@ class BankStatementComparison {
             // Normal state
             dropZone.classList.remove('disabled');
             dropText.textContent = 'Drop Bank Statement PDFs Here';
-            dropSubtext.textContent = `or click to browse • ${availableSlots.length} table${availableSlots.length !== 1 ? 's' : ''} available`;
+            dropSubtext.textContent = `or click to browse • ${availableSlots.length} table${availableSlots.length !== 1 ? 's' : ''} available • Multiple files supported`;
             clearAllButton.disabled = false;
         }
     }
@@ -561,6 +572,7 @@ class BankStatementComparison {
             tableHeader.innerHTML = `
                 <div class="table-title-with-logo">
                     <img src="${data.bankLogo}" alt="Bank Logo" class="bank-logo" onerror="this.style.display='none'">
+                    <span>Statement ${tableNumber}</span>
                 </div>
             `;
         } else {
