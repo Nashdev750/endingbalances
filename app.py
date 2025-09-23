@@ -33,7 +33,9 @@ app = Flask(__name__)
 
 CORS(app, resources={r"/*": {"origins": [
     "https://openmca.com",
-    "https://openmca.com/ending-balances"
+    "https://www.openmca.com",
+    "https://openmca.com/ending-balances",
+    "https://www.openmca.com/ending-balances",
 ]}})
 @app.route('/')
 def index():
