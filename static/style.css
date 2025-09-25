@@ -584,7 +584,7 @@ body {
     }
     
     .table-container {
-        height: 400px;
+        height: fit-content;
     }
     
     .drop-zone {
