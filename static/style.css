@@ -47,8 +47,8 @@ body {
 }
 
 .header h1 {
-    font-size: 1.5rem;
-    font-weight: 500;
+    font-size: 2rem;
+    font-weight: 700;
     color: var(--text-primary);
     letter-spacing: -0.025em;
 }
@@ -430,7 +430,7 @@ body {
     box-shadow: var(--shadow-sm);
     display: flex;
     flex-direction: column;
-    height: fit-content;
+    height: 500px;
 }
 
 .table-header {
@@ -456,8 +456,15 @@ body {
     gap: calc(var(--spacing) / 2);
 }
 
+.table-icon {
+    width: 20px;
+    height: 20px;
+    color: var(--text-secondary);
+    stroke-width: 1.5;
+}
+
 .bank-logo {
-    width: auto;
+    width: 24px;
     height: 24px;
     object-fit: contain;
     border-radius: 4px;
@@ -521,9 +528,7 @@ body {
     top: 0;
     z-index: 1;
 }
-.comparison-table th:last-child{
-    text-align: right;
-}
+
 .comparison-table td {
     padding: var(--spacing) calc(var(--spacing) * 1.5);
     border-bottom: 1px solid #f1f5f9;
@@ -544,13 +549,11 @@ body {
 .balance-positive {
     color: var(--success-color);
     font-weight: 500;
-    text-align: right;
 }
 
 .balance-negative {
     color: var(--error-color);
     font-weight: 500;
-    text-align: right;
 }
 
 /* Responsive design */

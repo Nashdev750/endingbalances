@@ -4,7 +4,7 @@ class BankStatementComparison {
         this.processingQueue = [];
         this.isProcessing = false;
         this.maxTables = 4;
-        this.dropZoneCollapsed = false;
+        this.dropZoneCollapsed = true;
         this.dragCounter = 0;
         this.init();
     }
@@ -15,6 +15,7 @@ class BankStatementComparison {
         this.setupClearAllButton();
         this.setupToggleDropZone();
         this.setupFullPageDrop();
+        this.initializeDropZoneState();
         this.updateDropZoneState();
         this.updateTableStatuses();
     }
@@ -45,6 +46,20 @@ class BankStatementComparison {
                 `;
             }
         });
+    }
+
+    initializeDropZoneState() {
+        const dropZoneContainer = document.getElementById('dropZoneContainer');
+        const toggleButton = document.getElementById('toggleDropZone');
+        
+        // Set initial collapsed state
+        dropZoneContainer.classList.add('collapsed');
+        toggleButton.innerHTML = `
+            <svg class="toggle-icon rotated" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <polyline points="6,9 12,15 18,9"/>
+            </svg>
+            Show Drop Zone
+        `;
     }
 
     setupFullPageDrop() {
@@ -485,7 +500,12 @@ class BankStatementComparison {
         try {
             const response = await fetch('https://openmca.com/ending-balances/extract', {
                 method: 'POST',
-                body: formData
+                body: formData,
+                headers: {
+                    'Accept': 'application/json',
+                },
+                mode: 'cors',
+                credentials: 'omit'
             });
 
             if (!response.ok) {
@@ -574,8 +594,6 @@ class BankStatementComparison {
                     <img src="${data.bankLogo}" alt="Bank Logo" class="bank-logo" onerror="this.style.display='none'">
                 </div>
             `;
-        } else {
-            tableHeader.innerHTML = `Statement ${tableNumber}`;
         }
         // Store data
         this.tables.set(tableNumber, { data, fileName });
@@ -589,8 +607,14 @@ class BankStatementComparison {
         // Reset table
         tbody.innerHTML = '<tr class="empty-row"><td colspan="2">No data available</td></tr>';
         
-        // Reset table header
-        tableHeader.innerHTML = `Statement ${tableNumber}`;
+        // Reset table header to show icon
+        tableHeader.innerHTML = `
+            <svg class="table-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                <line x1="9" y1="9" x2="15" y2="9"/>
+                <line x1="9" y1="15" x2="15" y2="15"/>
+            </svg>
+        `;
         
         // Remove from storage
         this.tables.delete(tableNumber);
